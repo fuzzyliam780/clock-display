@@ -17,12 +17,14 @@ public class ClockDisplay12Hr
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
+    private String amPm;
+    private int hour;
 
     /**
      * Constructor for ClockDisplay objects. This constructor
      * creates a new clock set at 00:00.
      */
-    public ClockDisplay()
+    public ClockDisplay12Hr()
     {
         hours = new NumberDisplay(24);
         minutes = new NumberDisplay(60);
@@ -34,7 +36,7 @@ public class ClockDisplay12Hr
      * creates a new clock set at the time specified by the
      * parameters.
      */
-    public ClockDisplay(int hour, int minute)
+    public ClockDisplay12Hr(int hour, int minute)
     {
         hours = new NumberDisplay(24);
         minutes = new NumberDisplay(60);
@@ -78,7 +80,22 @@ public class ClockDisplay12Hr
      */
     private void updateDisplay()
     {
-        displayString = hours.getDisplayValue() + ":" +
-                        minutes.getDisplayValue();
+        if (hours.getValue() <= 11 && hours.getValue() >= 0){
+            amPm = "AM";
+        }else if (hours.getValue() >= 12 && hours.getValue() < 24) {
+            hour = hours.getValue()-12;
+            amPm = "PM";
+        }
+        //if (hours.getValue() == 0){
+        //    displayString = "00:" + minutes.getDisplayValue() + " " 
+        //    + amPm;
+        //}else 
+        if(hours.getValue() >= 12 && hours.getValue() < 24){
+            displayString = hour + ":" +
+                        minutes.getDisplayValue() + " " + amPm;
+        } else {
+            displayString = hours.getDisplayValue() + ":" +
+                        minutes.getDisplayValue() + " " + amPm;
+        }
     }
 }
