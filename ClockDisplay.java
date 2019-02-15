@@ -17,6 +17,8 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
+    private String amPm;
+    private int hour;
     
     /**
      * Constructor for ClockDisplay objects. This constructor 
@@ -78,8 +80,20 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
-        
-        displayString = hours.getDisplayValue() + ":" + 
-                        minutes.getDisplayValue();
+        if (hours.getValue() <= 11 && hours.getValue() >= 0){
+            amPm = "AM";
+        }else if (hours.getValue() >= 12 && hours.getValue() < 24) {
+            hour = hours.getValue()-12;
+            amPm = "PM";
+        }
+        //if (hours.getValue() == 0){
+        //    displayString = "00:" + minutes.getDisplayValue() + " " 
+        //    + amPm;
+        //}else 
+        if(hours.getValue() >= 12 && hours.getValue() < 24){
+            displayString = hour + ":" + minutes.getDisplayValue() + " " + amPm;
+        } else {
+            displayString = hours.getDisplayValue() + ":" + minutes.getDisplayValue() + " " + amPm;
+        }
     }
 }

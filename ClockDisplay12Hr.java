@@ -17,7 +17,7 @@ public class ClockDisplay12Hr
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
-    private String amPm;
+    private static String amPm;
     private int hour;
 
     /**
@@ -26,8 +26,9 @@ public class ClockDisplay12Hr
      */
     public ClockDisplay12Hr()
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
+        amPm = "AM";
         updateDisplay();
     }
 
@@ -36,11 +37,12 @@ public class ClockDisplay12Hr
      * creates a new clock set at the time specified by the
      * parameters.
      */
-    public ClockDisplay12Hr(int hour, int minute)
+    public ClockDisplay12Hr(int hour, int minute,String isItAmOrPm)
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
-        setTime(hour, minute);
+        amPm = isItAmOrPm;
+        setTime(hour, minute,isItAmOrPm);
     }
 
     /**
@@ -60,7 +62,7 @@ public class ClockDisplay12Hr
      * Set the time of the display to the specified hour and
      * minute.
      */
-    public void setTime(int hour, int minute)
+    public void setTime(int hour, int minute, String isItAmOrPm)
     {
         hours.setValue(hour);
         minutes.setValue(minute);
@@ -80,22 +82,17 @@ public class ClockDisplay12Hr
      */
     private void updateDisplay()
     {
-        if (hours.getValue() <= 11 && hours.getValue() >= 0){
-            amPm = "AM";
-        }else if (hours.getValue() >= 12 && hours.getValue() < 24) {
-            hour = hours.getValue()-12;
-            amPm = "PM";
+        if (hours.getValue() == 12){
+            hour = 0;
+            displayString = "0" + hour + ":" + minutes.getDisplayValue() + " " + amPm;
+        }else if (hours.getValue() >= 0 && hours.getValue() < 10) {
+            displayString = "0" + hour + ":" + minutes.getDisplayValue() + " " + amPm;
+        }else{
+            displayString = hour + ":" + minutes.getDisplayValue() + " " + amPm;
         }
         //if (hours.getValue() == 0){
         //    displayString = "00:" + minutes.getDisplayValue() + " " 
         //    + amPm;
         //}else 
-        if(hours.getValue() >= 12 && hours.getValue() < 24){
-            displayString = hour + ":" +
-                        minutes.getDisplayValue() + " " + amPm;
-        } else {
-            displayString = hours.getDisplayValue() + ":" +
-                        minutes.getDisplayValue() + " " + amPm;
-        }
     }
 }
